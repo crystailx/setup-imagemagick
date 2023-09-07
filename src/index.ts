@@ -38,6 +38,7 @@ async function run(): Promise<void> {
       const magickPath = await tc.downloadTool(LINUX_BIN);
       const output = await exec.getExecOutput("chmod", ["+x", magickPath]);
       core.debug(output.stdout)
+      core.debug('WTF')
       const cachePath = await tc.cacheFile(
         magickPath,
         "convert",
