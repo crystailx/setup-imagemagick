@@ -41,9 +41,9 @@ async function run(): Promise<void> {
         "imagemagick",
         "latest",
       );
+      exec.exec("chmod", ["+x", `${cachePath}/convert`]);
       core.addPath(cachePath);
       // await io.mv(magickPath, `${binPath}/magick`);
-      // exec.exec("chmod", ["+x", `${binPath}/magick`]);
 
       // core.addPath(binPath);
     }
