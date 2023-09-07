@@ -33,8 +33,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __nccwpck_require__(2186);
 const exec = __nccwpck_require__(1514);
-const io = __nccwpck_require__(7436);
-const os = __nccwpck_require__(2037);
+// import * as io from "@actions/io";
+// import * as os from "os";
+// import * as path from "path";
 const tc = __nccwpck_require__(7784);
 const LINUX_BIN = "https://imagemagick.org/archive/binaries/magick";
 function run() {
@@ -49,12 +50,14 @@ function run() {
                 exec.exec("brew", ["install", "imagemagick"]);
             }
             else {
-                const binPath = `${os.homedir}/bin`;
-                yield io.mkdirP(binPath);
+                // const binPath = `${os.homedir}/bin`;
+                // await io.mkdirP(binPath);
                 const magickPath = yield tc.downloadTool(LINUX_BIN);
-                yield io.mv(magickPath, `${binPath}/magick`);
-                exec.exec("chmod", ["+x", `${binPath}/magick`]);
-                core.addPath(binPath);
+                const cachePath = yield tc.cacheFile(magickPath, "convert", "imagemagick", "latest");
+                core.addPath(cachePath);
+                // await io.mv(magickPath, `${binPath}/magick`);
+                // exec.exec("chmod", ["+x", `${binPath}/magick`]);
+                // core.addPath(binPath);
             }
         }
         catch (error) {

@@ -16,9 +16,9 @@
 
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
-import * as io from "@actions/io";
-import * as os from "os";
-import * as path from "path";
+// import * as io from "@actions/io";
+// import * as os from "os";
+// import * as path from "path";
 import * as tc from "@actions/tool-cache";
 
 const LINUX_BIN = "https://imagemagick.org/archive/binaries/magick";
@@ -35,8 +35,13 @@ async function run(): Promise<void> {
       // const binPath = `${os.homedir}/bin`;
       // await io.mkdirP(binPath);
       const magickPath = await tc.downloadTool(LINUX_BIN);
-      const cachePath = await tc.cacheFile(magickPath, 'convert', 'imagemagick')
-      core.addPath(cachePath)
+      const cachePath = await tc.cacheFile(
+        magickPath,
+        "convert",
+        "imagemagick",
+        "latest",
+      );
+      core.addPath(cachePath);
       // await io.mv(magickPath, `${binPath}/magick`);
       // exec.exec("chmod", ["+x", `${binPath}/magick`]);
 
