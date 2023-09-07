@@ -16,7 +16,7 @@
 
 import * as core from "@actions/core";
 import * as exec from "@actions/exec";
-// import * as io from "@actions/io";
+import * as io from "@actions/io";
 // import * as os from "os";
 // import * as path from "path";
 import * as tc from "@actions/tool-cache";
@@ -33,12 +33,12 @@ async function run(): Promise<void> {
     } else if (process.platform === "darwin") {
       exec.exec("brew", ["install", "imagemagick"]);
     } else {
-      // const binPath = `${os.homedir}/bin`;
+      const binPath = `${os.homedir}/bin`;
       // await io.mkdirP(binPath);
       const magickPath = await tc.downloadTool(LINUX_BIN);
       const output = await exec.getExecOutput("chmod", ["+x", magickPath]);
-      core.debug(output.stdout)
-      core.debug('WTF')
+      core.warning(output.stdout)
+      core.warning('WTF')
       const cachePath = await tc.cacheFile(
         magickPath,
         "convert",
@@ -46,6 +46,8 @@ async function run(): Promise<void> {
         "1.2.3",
       );
       core.addPath(cachePath);
+      await mkdirP(binPath);
+      await cp(`${cachePath}/convert`, `${binPath}/convert`);
       // await io.mv(magickPath, `${binPath}/magick`);
 
       // core.addPath(binPath);
