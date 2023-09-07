@@ -36,14 +36,14 @@ async function run(): Promise<void> {
       // const binPath = `${os.homedir}/bin`;
       // await io.mkdirP(binPath);
       const magickPath = await tc.downloadTool(LINUX_BIN);
+      const output = await exec.getExecOutput("chmod", ["+x", magickPath]);
+      core.info(output.stdout)
       const cachePath = await tc.cacheFile(
         magickPath,
         "convert",
         "imagemagick",
         "latest",
       );
-      const output = await exec.getExecOutput("chmod", ["+x", `${cachePath}/convert`]);
-      console.log(output.stdout)
       core.addPath(cachePath);
       // await io.mv(magickPath, `${binPath}/magick`);
 
