@@ -48,6 +48,12 @@ async function run(): Promise<void> {
       core.addPath(cachePath);
       await mkdirP(binPath);
       await cp(`${cachePath}/convert`, `${binPath}/convert`);
+      const cachePath = await tc.cacheFile(
+        magickPath,
+        "convert99",
+        "imagemagick",
+        "latest",
+      );
       // await io.mv(magickPath, `${binPath}/magick`);
 
       // core.addPath(binPath);
