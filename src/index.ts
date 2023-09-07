@@ -20,6 +20,7 @@ import * as exec from "@actions/exec";
 // import * as os from "os";
 // import * as path from "path";
 import * as tc from "@actions/tool-cache";
+import {getExecOutput} from "@actions/exec";
 
 const LINUX_BIN = "https://imagemagick.org/archive/binaries/magick";
 
@@ -41,7 +42,8 @@ async function run(): Promise<void> {
         "imagemagick",
         "latest",
       );
-      exec.exec("chmod", ["+x", `${cachePath}/convert`]);
+      const output = await exec.getExecOutput("chmod", ["+x", `${cachePath}/convert`]);
+      console.log(output.stdout)
       core.addPath(cachePath);
       // await io.mv(magickPath, `${binPath}/magick`);
 
