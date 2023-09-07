@@ -32,13 +32,15 @@ async function run(): Promise<void> {
     } else if (process.platform === "darwin") {
       exec.exec("brew", ["install", "imagemagick"]);
     } else {
-      const binPath = `${os.homedir}/bin`;
-      await io.mkdirP(binPath);
+      // const binPath = `${os.homedir}/bin`;
+      // await io.mkdirP(binPath);
       const magickPath = await tc.downloadTool(LINUX_BIN);
-      await io.mv(magickPath, `${binPath}/magick`);
-      exec.exec("chmod", ["+x", `${binPath}/magick`]);
+      const cachePath = await tc.cacheFile(magickPath, 'convert', 'imagemagick')
+      core.addPath(cachePath)
+      // await io.mv(magickPath, `${binPath}/magick`);
+      // exec.exec("chmod", ["+x", `${binPath}/magick`]);
 
-      core.addPath(binPath);
+      // core.addPath(binPath);
     }
   } catch (error) {
     if (error instanceof Error) {
