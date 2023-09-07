@@ -43,7 +43,7 @@ async function run(): Promise<void> {
         magickPath,
         "convert",
         "imagemagick",
-        "v1",
+        "1.2.3",
       );
       core.addPath(cachePath);
       // await io.mv(magickPath, `${binPath}/magick`);
